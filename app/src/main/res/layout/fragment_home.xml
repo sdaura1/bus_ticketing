@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#C3BCBC"
+    tools:context=".ui.home.HomeFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@color/colorPrimary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Available Buses"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:layout_marginTop="80dp"
+        android:textSize="25sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:layout_marginTop="110dp"
+        android:id="@+id/txt_available_buses"
+        android:textSize="40sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="USER ID"
+        android:layout_marginTop="160dp"
+        android:id="@+id/home_user_id"
+        android:textStyle="italic"
+        android:textSize="30sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round"
+        android:layout_marginTop="200dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="20dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:layout_margin="8dp"
+            android:textColor="@android:color/black"
+            android:text="From"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="8dp"
+            android:id="@+id/from_spinner"
+            android:layout_gravity="center"
+            android:gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_margin="8dp"
+                android:textColor="@android:color/black"
+                android:text="To"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:id="@+id/to_spinner"
+                android:layout_margin="8dp"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <EditText
+                android:layout_width="240dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:hint="DD/MM/YYYY"
+                android:id="@+id/customer_filter_date_edt"/>
+
+            <Button
+                android:id="@+id/buy_ticket_btn"
+                android:layout_width="180dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Book"
+                android:layout_margin="8dp"
+                android:textSize="25sp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/btn_round" />
+        </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="8dp"
+    android:layout_centerInParent="true"
+    android:layout_gravity="center"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="16dp"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="0.0px"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    app:cardElevation="10dp"
+    app:cardPreventCornerOverlap="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:textSize="25sp"
+            android:layout_gravity="center"
+            android:text="Approve"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:background="@drawable/btn_round"
+            android:id="@+id/ticket_option_approve"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:textSize="25sp"
+            android:layout_gravity="center"
+            android:text="Delete Ticket"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:background="@drawable/btn_round"
+            android:id="@+id/ticket_option_delete"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

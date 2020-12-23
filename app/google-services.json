@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "985596711081",
+    "firebase_url": "https://bus-ticketing-fa0c0.firebaseio.com",
+    "project_id": "bus-ticketing-fa0c0",
+    "storage_bucket": "bus-ticketing-fa0c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985596711081:android:de63ddaa305dfc8bd219b8",
+        "android_client_info": {
+          "package_name": "com.brandage.busticketing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985596711081-b4gbr5nht29vkvl38sb84er5ac7t9k5a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcPk1gDf_dS_KdNs_cFUsILSbCJVmtI7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "985596711081-b4gbr5nht29vkvl38sb84er5ac7t9k5a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

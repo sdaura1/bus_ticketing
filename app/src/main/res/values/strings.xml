@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Bus Ticketing</string>
+    <string name="title_home">Home</string>
+    <string name="title_myticket">My Tickets</string>
+    <string name="title_admin">Admin</string>
+    <string name="title_activity_login_register">LoginRegister</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+
+    <string-array name="locations">
+        <item>SLU BUS STOP</item>
+        <item>AS BUS STOP</item>
+    </string-array>
+</resources>

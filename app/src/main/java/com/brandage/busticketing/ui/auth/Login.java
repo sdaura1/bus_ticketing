@@ -28,6 +28,7 @@ public class Login extends Fragment {
 
     private static final String TAG = "Login";
     ProgressDialog progressDialog;
+    String reg_format;
     SharedPreferenceManager sharedPreferenceManager;
     EditText username, password;
     Button login;
@@ -42,6 +43,8 @@ public class Login extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_login, container, false);
+
+        reg_format = "[A-Z]{3}/\\d{2}/[A-Z]{3}/\\d{4}";
         database = FirebaseDatabase.getInstance();
         users_ref = database.getReference("users");
         sharedPreferenceManager = SharedPreferenceManager.getInstance(requireActivity());
@@ -54,34 +57,36 @@ public class Login extends Fragment {
         password = root.findViewById(R.id.login_password);
 
         login.setOnClickListener(v -> {
-            if (!username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()){
-                progressDialog.show();
-                users_ref.child("register").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.hasChild(username.getText().toString().replace(".", "-"))){
-                            if (Objects.equals(snapshot.child(username.getText().toString().replace(".", "-"))
-                                    .child("username").getValue(), username.getText().toString())
-                                    && Objects.equals(snapshot.child(username.getText().toString().replace(".", "-"))
-                                    .child("password").getValue(), password.getText().toString())) {
+            if (!username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
+                if (username.getText().toString().matches(reg_format)) {
+                    progressDialog.show();
+                    users_ref.child("register").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.hasChild(username.getText().toString().replace("/", "-"))) {
+                                if (Objects.equals(snapshot.child(username.getText().toString().replace("/", "-"))
+                                        .child("username").getValue(), username.getText().toString())
+                                        && Objects.equals(snapshot.child(username.getText().toString().replace("/", "-"))
+                                        .child("password").getValue(), password.getText().toString())) {
 
-                                progressDialog.dismiss();
-                                sharedPreferenceManager.save_user_name(username.getText().toString());
-                                sharedPreferenceManager.save_password(password.getText().toString());
+                                    progressDialog.dismiss();
+                                    sharedPreferenceManager.save_user_name(username.getText().toString());
+                                    sharedPreferenceManager.save_password(password.getText().toString());
 
-                                startActivity(new Intent(getActivity(), MainActivity.class));
-                                requireActivity().finish();
-                            } else {
-                                progressDialog.dismiss();
+                                    startActivity(new Intent(getActivity(), MainActivity.class));
+                                    requireActivity().finish();
+                                } else {
+                                    progressDialog.dismiss();
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+                        }
+                    });
+                }
             }
         });
         return root;

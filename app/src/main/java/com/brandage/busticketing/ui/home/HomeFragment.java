@@ -133,7 +133,11 @@ public class HomeFragment extends Fragment {
 
         buy_ticket_btn.setOnClickListener(v -> {
             if (!filter_date.getText().toString().isEmpty() && !sharedPreferenceManager.get_user_name().isEmpty()){
-                dialog_ticket_count();
+                if (!to.equals(from)) {
+                    dialog_ticket_count();
+                }else if (to.equals(from)){
+                    Toast.makeText(getActivity(), "Destination cannot be the same as start", Toast.LENGTH_SHORT).show();
+                }
             }else {
                 Toast.makeText(getActivity(), "Please select date", Toast.LENGTH_SHORT).show();
             }
@@ -167,7 +171,7 @@ public class HomeFragment extends Fragment {
                 booking.setId(sharedPreferenceManager.get_user_name());
                 booking.setDate(filter_date.getText().toString());
                 booking.setApproved(false);
-                booking.setAmount("100.0");
+                booking.setAmount(String.valueOf(100.0 * Integer.parseInt(edt_ticket_count.getText().toString())));
                 booking.setCount(Integer.parseInt(edt_ticket_count.getText().toString()));
 
                 String uuid = ticket_ref.push().getKey();

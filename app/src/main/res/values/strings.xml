@@ -10,5 +10,6 @@
     <string-array name="locations">
         <item>SLU BUS STOP</item>
         <item>AS BUS STOP</item>
+        <item>VILLA BUS STOP</item>
     </string-array>
 </resources>

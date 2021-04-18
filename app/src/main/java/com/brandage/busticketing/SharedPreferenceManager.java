@@ -11,9 +11,7 @@ public class SharedPreferenceManager {
     private SharedPreferences prefs;
     private static final String PREFS = "prefs";
     private static final String USER_NAME = "user_name";
-    private static final String ADMIN_USER_NAME = "admin_user_name";
-    private static final String PASSWORD = "password";
-    private static final String ADMIN_PASSWORD = "admin_password";
+    private static final String ISADMIN = "isAdmin";
     private static final String UUID = "uuid";
     private static SharedPreferenceManager Instance =  null;
 
@@ -29,15 +27,9 @@ public class SharedPreferenceManager {
         return Instance;
     }
 
-    public void save_password(String password){
+    public void save_admin(boolean isAdmin){
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(PASSWORD, password);
-        editor.apply();
-    }
-
-    public void save_admin_password(String password){
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(ADMIN_PASSWORD, password);
+        editor.putBoolean(ISADMIN, isAdmin);
         editor.apply();
     }
 
@@ -53,28 +45,16 @@ public class SharedPreferenceManager {
         editor.apply();
     }
 
-    public void save_admin_user_name(String user_name){
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(ADMIN_USER_NAME, user_name);
-        editor.apply();
+    public boolean get_admin(){
+        return prefs.getBoolean(ISADMIN, false);
     }
-
     public String get_user_name(){
         return prefs.getString(USER_NAME, null);
-    }
-    public String get_admin_user_name(){
-        return prefs.getString(ADMIN_USER_NAME, null);
     }
     public String get_uuid(){
         return prefs.getString(UUID, null);
     }
 
-    public String get_password(){
-        return prefs.getString(PASSWORD, null);
-    }
-    public String get_admin_password(){
-        return prefs.getString(ADMIN_PASSWORD, null);
-    }
 
     public void clear() {
         prefs.edit().clear().apply();

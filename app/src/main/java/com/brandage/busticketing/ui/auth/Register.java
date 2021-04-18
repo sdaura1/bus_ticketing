@@ -30,7 +30,7 @@ public class Register extends Fragment {
 
     private static final String TAG = "Register";
     ProgressDialog progressDialog;
-    String reg_format;
+    String student_reg_format, admin_reg_format;
     SharedPreferenceManager sharedPreferenceManager;
     EditText username, password;
     Button register_btn;
@@ -45,7 +45,8 @@ public class Register extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_register, container, false);
 
-        reg_format = "[A-Z]{3}/\\d{2}/[A-Z]{3}/\\d{4}";
+        student_reg_format = "[A-Z]{3}/\\d{2}/[A-Z]{3}/\\d{4}";
+        admin_reg_format = "[A-Z]{2}/\\d{3}";
         database = FirebaseDatabase.getInstance();
         users_ref = database.getReference("users");
         sharedPreferenceManager = SharedPreferenceManager.getInstance(requireActivity());
@@ -59,7 +60,7 @@ public class Register extends Fragment {
 
         register_btn.setOnClickListener(v -> {
             if (!username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
-                if (username.getText().toString().matches(reg_format)) {
+                if (username.getText().toString().matches(student_reg_format)) {
                     progressDialog.show();
                     users_ref.child("register").addValueEventListener(new ValueEventListener() {
                         @Override
@@ -73,8 +74,46 @@ public class Register extends Fragment {
                                         .setIcon(R.drawable.ic_home_black_24dp)
                                         .setMessage("User Created")
                                         .setNegativeButton("OK", ((dialog, which) -> {
+                                            sharedPreferenceManager.save_admin(false);
                                             sharedPreferenceManager.save_user_name(username.getText().toString());
-                                            sharedPreferenceManager.save_password(password.getText().toString());
+                                            startActivity(new Intent(getActivity(), MainActivity.class));
+                                            requireActivity().finish();
+                                        }))
+                                        .show());
+                            } else {
+                                progressDialog.dismiss();
+                                new AlertDialog.Builder(getActivity())
+                                        .setTitle("Register")
+                                        .setIcon(R.drawable.ic_home_black_24dp)
+                                        .setMessage("User already exists")
+                                        .setNegativeButton("OK", ((dialog, which) -> {
+                                            ViewPager viewPager = requireActivity().findViewById(R.id.viewPager);
+                                            viewPager.setCurrentItem(2);
+                                        })).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }else if (username.getText().toString().matches(admin_reg_format)) {
+                    progressDialog.show();
+                    users_ref.child("register").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (!snapshot.hasChild(username.getText().toString().replace("/", "-"))) {
+                                progressDialog.dismiss();
+                                Student student = new Student(username.getText().toString(), password.getText().toString());
+                                users_ref.child("register").child(username.getText().toString().replace("/", "-"))
+                                        .setValue(student).addOnCompleteListener(task -> new AlertDialog.Builder(getActivity())
+                                        .setTitle("Register")
+                                        .setIcon(R.drawable.ic_home_black_24dp)
+                                        .setMessage("User Created")
+                                        .setNegativeButton("OK", ((dialog, which) -> {
+                                            sharedPreferenceManager.save_admin(true);
+                                            sharedPreferenceManager.save_user_name(username.getText().toString());
                                             startActivity(new Intent(getActivity(), MainActivity.class));
                                             requireActivity().finish();
                                         }))

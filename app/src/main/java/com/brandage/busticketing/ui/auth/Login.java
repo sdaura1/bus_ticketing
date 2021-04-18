@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.brandage.busticketing.MainActivity;
 import com.brandage.busticketing.R;
@@ -28,7 +29,7 @@ public class Login extends Fragment {
 
     private static final String TAG = "Login";
     ProgressDialog progressDialog;
-    String reg_format;
+    String student_reg_format, admin_reg_format;
     SharedPreferenceManager sharedPreferenceManager;
     EditText username, password;
     Button login;
@@ -44,7 +45,8 @@ public class Login extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_login, container, false);
 
-        reg_format = "[A-Z]{3}/\\d{2}/[A-Z]{3}/\\d{4}";
+        student_reg_format = "[A-Z]{3}/\\d{2}/[A-Z]{3}/\\d{4}";
+        admin_reg_format = "[A-Z]{2}/\\d{3}";
         database = FirebaseDatabase.getInstance();
         users_ref = database.getReference("users");
         sharedPreferenceManager = SharedPreferenceManager.getInstance(requireActivity());
@@ -58,7 +60,7 @@ public class Login extends Fragment {
 
         login.setOnClickListener(v -> {
             if (!username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
-                if (username.getText().toString().matches(reg_format)) {
+                if (username.getText().toString().matches(student_reg_format)) {
                     progressDialog.show();
                     users_ref.child("register").addValueEventListener(new ValueEventListener() {
                         @Override
@@ -70,8 +72,8 @@ public class Login extends Fragment {
                                         .child("password").getValue(), password.getText().toString())) {
 
                                     progressDialog.dismiss();
+                                    sharedPreferenceManager.save_admin(false);
                                     sharedPreferenceManager.save_user_name(username.getText().toString());
-                                    sharedPreferenceManager.save_password(password.getText().toString());
 
                                     startActivity(new Intent(getActivity(), MainActivity.class));
                                     requireActivity().finish();
@@ -86,6 +88,36 @@ public class Login extends Fragment {
 
                         }
                     });
+                }else if (username.getText().toString().matches(admin_reg_format)) {
+                    progressDialog.show();
+                    users_ref.child("register").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.hasChild(username.getText().toString().replace("/", "-"))) {
+                                if (Objects.equals(snapshot.child(username.getText().toString().replace("/", "-"))
+                                        .child("username").getValue(), username.getText().toString())
+                                        && Objects.equals(snapshot.child(username.getText().toString().replace("/", "-"))
+                                        .child("password").getValue(), password.getText().toString())) {
+
+                                    progressDialog.dismiss();
+                                    sharedPreferenceManager.save_admin(true);
+                                    sharedPreferenceManager.save_user_name(username.getText().toString());
+
+                                    startActivity(new Intent(getActivity(), MainActivity.class));
+                                    requireActivity().finish();
+                                } else {
+                                    progressDialog.dismiss();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }else {
+                    Toast.makeText(getActivity(), "Not a match", Toast.LENGTH_SHORT).show();
                 }
             }
         });

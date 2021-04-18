@@ -49,43 +49,12 @@ public class AdminFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        sharedPreferenceManager.save_admin_password(null);
-        sharedPreferenceManager.save_admin_user_name(null);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        sharedPreferenceManager.save_admin_password(null);
-        sharedPreferenceManager.save_admin_user_name(null);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        sharedPreferenceManager.save_admin_password(null);
-        sharedPreferenceManager.save_admin_user_name(null);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        sharedPreferenceManager.save_admin_password(null);
-        sharedPreferenceManager.save_admin_user_name(null);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        sharedPreferenceManager.save_admin_password(null);
-        sharedPreferenceManager.save_admin_user_name(null);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        sharedPreferenceManager.save_admin_password(null);
-        sharedPreferenceManager.save_admin_user_name(null);
+        if (sharedPreferenceManager.get_admin()) {
+            bus_count_btn.setVisibility(View.VISIBLE);
+            get_ticket();
+        }else {
+            bus_count_btn.setVisibility(View.GONE);
+        }
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,17 +75,11 @@ public class AdminFragment extends Fragment {
         bus_count = database.getReference("bus_count");
         sharedPreferenceManager = SharedPreferenceManager.getInstance(requireActivity());
 
-        bus_count_btn.setVisibility(View.GONE);
-
         bus_count_btn.setOnClickListener(v -> dialog_bus_count());
 
-        dialog();
-
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            if (sharedPreferenceManager.get_admin_user_name() != null){
+            if (sharedPreferenceManager.get_admin()){
                 get_ticket();
-            }else {
-                dialog();
             }
             swipeRefreshLayout.setRefreshing(false);
         });
@@ -299,18 +262,6 @@ public class AdminFragment extends Fragment {
                                     .equals(username.getText().toString()) &&
                                     Objects.requireNonNull(dataSnapshot.child("password").getValue()).toString()
                                             .equals(password.getText().toString())){
-
-//                                final Calendar calendar = Calendar.getInstance();
-//                                int day = calendar.get(Calendar.DAY_OF_MONTH);
-//                                int month = calendar.get(Calendar.MONTH);
-//                                int year = calendar.get(Calendar.YEAR);
-//                                picker = new DatePickerDialog(requireActivity(), (view, y, m, dayOfMonth) ->
-//                                        date = String.valueOf(dayOfMonth).length() == 1 ? "0" + (dayOfMonth) : (dayOfMonth)
-//                                                + "/" + ((m + 1) <= 9 ? "0" + (m + 1) : (m + 1)) + "/" + y, year, month, day);
-//                                picker.show();
-
-                                sharedPreferenceManager.save_admin_password(password.getText().toString());
-                                sharedPreferenceManager.save_admin_user_name(username.getText().toString());
 
                                 bus_count_btn.setVisibility(View.VISIBLE);
                                 get_ticket();
